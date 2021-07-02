@@ -68,7 +68,8 @@ class Calendar extends Component {
     /** Style passed to the header */
     headerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
     /** Allow rendering of a totally custom header */
-    customHeader: PropTypes.any
+    customHeader: PropTypes.any,
+    onPressYear: PropTypes.func
   };
 
   static defaultProps = {
