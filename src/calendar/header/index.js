@@ -48,7 +48,9 @@ class CalendarHeader extends Component {
     /** Replace default month and year title with custom one. the function receive a date as parameter. */
     renderHeader: PropTypes.any,
     /** Provide aria-level for calendar heading for proper accessibility when used with web (react-native-web) */
-    webAriaLevel: PropTypes.number
+    webAriaLevel: PropTypes.number,
+    // Handler which gets executed when press on Year / Month in header
+    onPressYear: PropTypes.func
   };
 
   static defaultProps = {
@@ -229,8 +231,10 @@ class CalendarHeader extends Component {
         <View style={this.style.header}>
           {this.renderArrow('left')}
           <View style={this.style.headerContainer}>
-            {this.renderHeader()}
-            {this.renderIndicator()}
+            <TouchableOpacity disabled={!this.props.onPressYear} onPress={this.props.onPressYear(this.props.month)}>
+              {this.renderHeader()}
+              {this.renderIndicator()}
+            </TouchableOpacity>
           </View>
           {this.renderArrow('right')}
         </View>
