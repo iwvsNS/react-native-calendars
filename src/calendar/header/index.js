@@ -38,7 +38,7 @@ class CalendarHeader extends Component {
     /** Handler which gets executed when press arrow icon left. It receive a callback can go back month */
     onPressArrowLeft: PropTypes.func,
     /** Handler which gets executed when press arrow icon right. It receive a callback can go next month */
-    onPressArrowRight: PropTypes.func,
+    // onPressArrowRight: PropTypes.func,
     /** Disable left arrow. Default = false */
     disableArrowLeft: PropTypes.bool,
     /** Disable right arrow. Default = false */
@@ -49,8 +49,10 @@ class CalendarHeader extends Component {
     renderHeader: PropTypes.any,
     /** Provide aria-level for calendar heading for proper accessibility when used with web (react-native-web) */
     webAriaLevel: PropTypes.number,
+    onPressArrowRight: PropTypes.func,
     // Handler which gets executed when press on Year / Month in header
-    onPressYear: PropTypes.func
+    onPressYear: PropTypes.func,
+    locale: PropTypes.string
   };
 
   static defaultProps = {
@@ -133,11 +135,19 @@ class CalendarHeader extends Component {
   });
 
   renderHeader = () => {
-    const {renderHeader, month, monthFormat, testID, webAriaLevel} = this.props;
+    const {renderHeader, month, monthFormat, testID, webAriaLevel, locale} = this.props;
     const webProps = Platform.OS === 'web' ? {'aria-level': webAriaLevel} : {};
 
     if (renderHeader) {
       return renderHeader(month);
+    }
+
+    let currentSelect;
+    if (locale == 'th') {
+      let nowDate = new XDate(month);
+      currentSelect = nowDate.setFullYear(nowDate.getFullYear() + 543);
+    } else {
+      currentSelect = month
     }
 
     return (
@@ -148,7 +158,7 @@ class CalendarHeader extends Component {
           testID={testID ? `${HEADER_MONTH_NAME}-${testID}` : HEADER_MONTH_NAME}
           {...webProps}
         >
-          {month.toString(monthFormat)}
+          {currentSelect.toString(monthFormat)}
         </Text>
       </Fragment>
     );
@@ -231,10 +241,10 @@ class CalendarHeader extends Component {
         <View style={this.style.header}>
           {this.renderArrow('left')}
           <View style={this.style.headerContainer}>
-            <TouchableOpacity disabled={!this.props.onPressYear} onPress={this.props.onPressYear(this.props.month)}>
-              {this.renderHeader()}
-              {this.renderIndicator()}
-            </TouchableOpacity>
+          <TouchableOpacity disabled={!this.props.onPressYear} onPress={() => this.props.onPressYear(this.props.month)}>
+            {this.renderHeader()}
+            {this.renderIndicator()}
+          </TouchableOpacity>
           </View>
           {this.renderArrow('right')}
         </View>

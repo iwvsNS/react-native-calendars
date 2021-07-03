@@ -69,7 +69,9 @@ class Calendar extends Component {
     headerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
     /** Allow rendering of a totally custom header */
     customHeader: PropTypes.any,
-    onPressYear: PropTypes.func
+    // Handler which gets executed when press on Year / Month in header
+    onPressYear: PropTypes.func,
+    locale: PropTypes.string
   };
 
   static defaultProps = {
